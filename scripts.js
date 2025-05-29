@@ -6,6 +6,54 @@ uploadBtn.addEventListener('click', () => {
 })
 
 
+// funcionalidade de leitura dos arquivos
+function lerConteudoDoArquivo(arquivo) {
+    return new Promise((resolve, reject) => {
+        const leitor = new FileReader();
+        leitor.onload = () => {
+            resolve({url: leitor.result, nome: arquivo.name });
+        }
+        leitor.onerror = () => {
+            reject('Erro na leitura do arquivo ${arquivo.name}')
+        };
+
+        leitor.readAsDataURL(arquivo);
+    })
+};
+
+// // pré-visualização de arquivo
+// document.getElementById('imageInput').addEventListener('change', function(event) {
+//     const file = event.target.files[0]; // Pegando o arquivo selecionado pelo usuário
+//     if (file) {
+//         const reader = new FileReader(); // Criando uma instância do FileReader
+//         reader.onload = function(e) {
+//             const preview = document.getElementById('preview');
+//             preview.src = e.target.result; // Atribuindo o resultado da leitura como fonte da imagem de pré-visualização
+//             preview.style.display = 'block'; // Tornando a pré-visualização visível
+//         };
+//         reader.readAsDataURL(arquivo); // Lendo o arquivo como um Data URL
+//     }
+// });
+
+
+// promessa assincrona upload do arquivo
+const imagemPrincipal = document.querySelector('.main-imagem');
+const nomeDaImagem = document.querySelector('.container-imagem-nome p');
+
+inputUpload.addEventListener('change', async (evento) => {
+    const arquivo = evento.target.files[0]; // Pegando o arquivo selecionado pelo usuário
+    if (arquivo) {
+        try {
+             conteudoDoArquivo = await lerConteudoDoArquivo(arquivo); // Lendo o conteúdo do arquivo
+            imagemPrincipal.src = conteudoDoArquivo.url; // Atualizando a imagem principal com o conteúdo lido
+            nomeDaImagem.textContent = conteudoDoArquivo.nome; // Atualizando o nome da imagem
+        } catch (erro) {
+            console.error("Erro na leitura do arquivo"); // Tratando erros de leitura
+        }
+    }
+});
+
+
 
 // document.getElementById('imageUpload').addEventListener('change', function(event) {
 //     var file = event.target.files[0];
