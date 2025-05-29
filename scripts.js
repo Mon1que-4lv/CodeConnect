@@ -53,6 +53,28 @@ inputUpload.addEventListener('change', async (evento) => {
     }
 });
 
+const inputTags = document.getElementById('input-tags');
+const listaTags = document.getElementById('lista-tags');
+
+inputTags.addEventListener("keypress", (evento) => {
+    if (evento.key === 'Enter') {
+        evento.preventDefault(); // Impede o envio do formulário
+        const tagTexto = inputTags.value.trim(); // Obtém o texto da tag e remove espaços extras
+        if (tagTexto !=="") {
+            const tagNova = document.createElement("li");
+            tagNova.innerHTML = `<p>${tagTexto}</p> <img src="./img/close-black.svg" class="remove-tag">`;
+            listaTags.appendChild(tagNova); // Adiciona a nova tag à lista
+            inputTags.value = ""; // Limpa o campo de entrada
+        }
+    }
+})
+
+listaTags.addEventListener("click", (evento) => {
+    if (evento.target.classList.contains("remove-tag")) {
+        const tagQueQueremosRemover = evento.target.parentElement; // Obtém o elemento pai (li) da imagem clicada
+        listaTags.removeChild(tagQueQueremosRemover); // Remove a tag da lista
+    }
+});
 
 
 // document.getElementById('imageUpload').addEventListener('change', function(event) {

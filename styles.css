@@ -123,6 +123,7 @@ texarea {
 
 .lista-tags {
     display: flex;
+    cursor: pointer;
 }
 
 .container-botoes {
